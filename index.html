@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Happy Birthday ❤️ My Love</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: #08010b;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    /* Background */
+    .background {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(circle at 20% 20%, #ff1493 0, transparent 25%),
+        radial-gradient(circle at 80% 30%, #8a2be2 0, transparent 25%),
+        radial-gradient(circle at 50% 90%, #ff416c 0, transparent 30%),
+        #08010b;
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: fixed;
+      bottom: -50px;
+      color: #ff4f9a;
+      font-size: 22px;
+      animation: floatUp linear infinite;
+      opacity: .7;
+      z-index: -1;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(.5) rotate(0deg);
+        opacity: 0;
+      }
+
+      20% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(-110vh) scale(1.4) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    .hero-content {
+      max-width: 900px;
+    }
+
+    .small-text {
+      color: #ffb6d9;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: clamp(48px, 10vw, 100px);
+      line-height: 1;
+      background: linear-gradient(90deg, #fff, #ff70b7, #c77dff, #fff);
+      background-size: 300%;
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: gradient 5s infinite;
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0%; }
+      50% { background-position: 100%; }
+      100% { background-position: 0%; }
+    }
+
+    .hero h2 {
+      margin-top: 20px;
+      font-size: clamp(25px, 5vw, 50px);
+      color: #fff;
+    }
+
+    .hero p {
+      margin: 25px auto;
+      max-width: 650px;
+      font-size: 18px;
+      line-height: 1.8;
+      color: #ffd9ec;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 15px 30px;
+      border-radius: 50px;
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(45deg, #ff1493, #8a2be2);
+      box-shadow: 0 0 30px #ff149388;
+      transition: .3s;
+      cursor: pointer;
+      border: none;
+      font-size: 16px;
+    }
+
+    .btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 50px #ff1493;
+    }
+
+    /* Sections */
+    section {
+      padding: 90px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 42px;
+      margin-bottom: 50px;
+    }
+
+    .section-title span {
+      color: #ff5ca8;
+    }
+
+    /* Love message */
+    .message {
+      max-width: 800px;
+      margin: auto;
+      padding: 45px;
+      border-radius: 30px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.15);
+      backdrop-filter: blur(15px);
+      text-align: center;
+      box-shadow: 0 20px 60px #00000055;
+    }
+
+    .message p {
+      font-size: 20px;
+      line-height: 2;
+      color: #ffe7f3;
+    }
+
+    /* Gallery */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .photo {
+      height: 300px;
+      border-radius: 25px;
+      overflow: hidden;
+      position: relative;
+      border: 2px solid #ffffff22;
+      box-shadow: 0 15px 40px #00000066;
+      transition: .4s;
+      cursor: pointer;
+    }
+
+    .photo:hover {
+      transform: translateY(-10px) scale(1.03);
+      border-color: #ff5ca8;
+      box-shadow: 0 20px 50px #ff149355;
+    }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: .5s;
+    }
+
+    .photo:hover img {
+      transform: scale(1.1);
+    }
+
+    /* Fullscreen photo viewer */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.95);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 95%;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 15px;
+      box-shadow: 0 0 50px #ff149388;
+    }
+
+    .close-lightbox {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 45px;
+      color: white;
+      cursor: pointer;
+      z-index: 10000;
+    }
+
+    .photo-number {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #fff;
+      font-size: 16px;
+      background: rgba(255,20,147,.7);
+      padding: 8px 20px;
+      border-radius: 30px;
+    }
+
+    /* Timeline */
+    .timeline {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .timeline-item {
+      padding: 25px;
+      margin: 20px 0;
+      border-left: 3px solid #ff4f9a;
+      background: rgba(255,255,255,.06);
+      border-radius: 0 20px 20px 0;
+    }
+
+    .timeline-item h3 {
+      color: #ff75b7;
+      margin-bottom: 10px;
+    }
+
+    /* Music */
+    .music-box {
+      text-align: center;
+      padding: 35px;
+      border-radius: 30px;
+      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(15px);
+    }
+
+    .music-icon {
+      font-size: 60px;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      50% {
+        transform: scale(1.2);
+      }
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 60px 20px;
+      color: #ffb7d8;
+    }
+
+    footer .big-heart {
+      font-size: 50px;
+      animation: pulse 1.2s infinite;
+    }
+
+    /* Mobile */
+    @media(max-width:600px) {
+
+      section {
+        padding: 70px 15px;
+      }
+
+      .message {
+        padding: 25px;
+      }
+
+      .message p {
+        font-size: 17px;
+      }
+
+      .photo {
+        height: 350px;
+      }
+
+      .section-title {
+        font-size: 32px;
+      }
+
+      .close-lightbox {
+        right: 15px;
+        top: 10px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="background"></div>
+
+  <!-- Floating Hearts -->
+  <div class="heart" style="left:5%;animation-duration:8s;">❤️</div>
+  <div class="heart" style="left:15%;animation-duration:11s;animation-delay:2s;">💖</div>
+  <div class="heart" style="left:30%;animation-duration:9s;animation-delay:4s;">💕</div>
+  <div class="heart" style="left:50%;animation-duration:12s;animation-delay:1s;">❤️</div>
+  <div class="heart" style="left:70%;animation-duration:10s;animation-delay:3s;">💗</div>
+  <div class="heart" style="left:85%;animation-duration:8s;animation-delay:5s;">💖</div>
+  <div class="heart" style="left:95%;animation-duration:13s;">❤️</div>
+
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <div class="small-text">
+        A Special Day For My Special Person
+      </div>
+
+      <h1>Happy Birthday ❤️</h1>
+
+      <h2>My Beautiful Wife 👑</h2>
+
+      <p>
+        Today isn't just another day...
+        It's the day the most beautiful person in my life
+        came into this world. ❤️
+      </p>
+
+      <button class="btn" onclick="startMusic()">
+        🎵 Play Our Song
+      </button>
+
+      <br>
+
+      <a href="#memories" class="btn">
+        ❤️ Our Memories
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- MESSAGE -->
+  <section>
+
+    <h2 class="section-title">
+      A Letter <span>For You 💌</span>
+    </h2>
+
+    <div class="message">
+
+      <p>
+        My Love ❤️
+        <br><br>
+
+        Happy Birthday to the most amazing woman in my life.
+        You are not just my wife, you are my best friend,
+        my happiness and my biggest blessing.
+        <br><br>
+
+        Every moment spent with you is a memory I want to
+        keep forever. Your smile makes my worst days better,
+        and your love makes my life complete.
+        <br><br>
+
+        I promise to keep loving you, annoying you,
+        making you laugh and standing beside you
+        through every chapter of our life.
+        <br><br>
+
+        ❤️ I LOVE YOU MORE THAN WORDS CAN SAY ❤️
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- 30 PHOTOS -->
+  <section id="memories">
+
+    <h2 class="section-title">
+      Our <span>Beautiful Memories 📸</span>
+    </h2>
+
+    <div class="gallery" id="photoGallery">
+
+      <div class="photo" onclick="openPhoto(1)">
+        <img src="photo1.jpg" alt="Our Memory 1">
+      </div>
+
+      <div class="photo" onclick="openPhoto(2)">
+        <img src="photo2.jpg" alt="Our Memory 2">
+      </div>
+
+      <div class="photo" onclick="openPhoto(3)">
+        <img src="photo3.jpg" alt="Our Memory 3">
+      </div>
+
+      <div class="photo" onclick="openPhoto(4)">
+        <img src="photo4.jpg" alt="Our Memory 4">
+      </div>
+
+      <div class="photo" onclick="openPhoto(5)">
+        <img src="photo5.jpg" alt="Our Memory 5">
+      </div>
+
+      <div class="photo" onclick="openPhoto(6)">
+        <img src="photo6.jpg" alt="Our Memory 6">
+      </div>
+
+      <div class="photo" onclick="openPhoto(7)">
+        <img src="photo7.jpg" alt="Our Memory 7">
+      </div>
+
+      <div class="photo" onclick="openPhoto(8)">
+        <img src="photo8.jpg" alt="Our Memory 8">
+      </div>
+
+      <div class="photo" onclick="openPhoto(9)">
+        <img src="photo9.jpg" alt="Our Memory 9">
+      </div>
+
+      <div class="photo" onclick="openPhoto(10)">
+        <img src="photo10.jpg" alt="Our Memory 10">
+      </div>
+
+      <div class="photo" onclick="openPhoto(11)">
+        <img src="photo11.jpg" alt="Our Memory 11">
+      </div>
+
+      <div class="photo" onclick="openPhoto(12)">
+        <img src="photo12.jpg" alt="Our Memory 12">
+      </div>
+
+      <div class="photo" onclick="openPhoto(13)">
+        <img src="photo13.jpg" alt="Our Memory 13">
+      </div>
+
+      <div class="photo" onclick="openPhoto(14)">
+        <img src="photo14.jpg" alt="Our Memory 14">
+      </div>
+
+      <div class="photo" onclick="openPhoto(15)">
+        <img src="photo15.jpg" alt="Our Memory 15">
+      </div>
+
+      <div class="photo" onclick="openPhoto(16)">
+        <img src="photo16.jpg" alt="Our Memory 16">
+      </div>
+
+      <div class="photo" onclick="openPhoto(17)">
+        <img src="photo17.jpg" alt="Our Memory 17">
+      </div>
+
+      <div class="photo" onclick="openPhoto(18)">
+        <img src="photo18.jpg" alt="Our Memory 18">
+      </div>
+
+      <div class="photo" onclick="openPhoto(19)">
+        <img src="photo19.jpg" alt="Our Memory 19">
+      </div>
+
+      <div class="photo" onclick="openPhoto(20)">
+        <img src="photo20.jpg" alt="Our Memory 20">
+      </div>
+
+      <div class="photo" onclick="openPhoto(21)">
+        <img src="photo21.jpg" alt="Our Memory 21">
+      </div>
+
+      <div class="photo" onclick="openPhoto(22)">
+        <img src="photo22.jpg" alt="Our Memory 22">
+      </div>
+
+      <div class="photo" onclick="openPhoto(23)">
+        <img src="photo23.jpg" alt="Our Memory 23">
+      </div>
+
+      <div class="photo" onclick="openPhoto(24)">
+        <img src="photo24.jpg" alt="Our Memory 24">
+      </div>
+
+      <div class="photo" onclick="openPhoto(25)">
+        <img src="photo25.jpg" alt="Our Memory 25">
+      </div>
+
+      <div class="photo" onclick="openPhoto(26)">
+        <img src="photo26.jpg" alt="Our Memory 26">
+      </div>
+
+      <div class="photo" onclick="openPhoto(27)">
+        <img src="photo27.jpg" alt="Our Memory 27">
+      </div>
+
+      <div class="photo" onclick="openPhoto(28)">
+        <img src="photo28.jpg" alt="Our Memory 28">
+      </div>
+
+      <div class="photo" onclick="openPhoto(29)">
+        <img src="photo29.jpg" alt="Our Memory 29">
+      </div>
+
+      <div class="photo" onclick="openPhoto(30)">
+        <img src="photo30.jpg" alt="Our Memory 30">
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- FULLSCREEN PHOTO VIEWER -->
+  <div class="lightbox" id="lightbox">
+
+    <div class="close-lightbox" onclick="closePhoto()">
+      ✕
+    </div>
+
+    <img id="lightboxImage" src="" alt="Memory">
+
+    <div class="photo-number" id="photoNumber">
+      Photo 1 / 30
+    </div>
+
+  </div>
+
+
+  <!-- TIMELINE -->
+  <section>
+
+    <h2 class="section-title">
+      Our <span>Love Story ❤️</span>
+    </h2>
+
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <h3>💫 The Beginning</h3>
+        <p>
+          The day our story started...
+          I didn't know then that you would become
+          the most important person in my life.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <h3>❤️ Falling In Love</h3>
+        <p>
+          Slowly, every conversation, every smile,
+          every little moment made me fall for you.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <h3>💍 Forever Together</h3>
+        <p>
+          And then we became husband and wife.
+          The beginning of our forever.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <h3>♾️ Our Forever</h3>
+        <p>
+          Many more birthdays, adventures,
+          fights, laughs and beautiful memories
+          are waiting for us.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- MUSIC -->
+  <section>
+
+    <h2 class="section-title">
+      Our <span>Song 🎵</span>
+    </h2>
+
+    <div class="music-box">
+
+      <div class="music-icon">🎶</div>
+
+      <h2>Just You & Me ❤️</h2>
+
+      <p style="margin:15px;">
+        Press play and enjoy our little world.
+      </p>
+
+      <button class="btn" onclick="toggleMusic()" id="musicButton">
+        ▶ Play Music
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer>
+
+    <div class="big-heart">❤️</div>
+
+    <h2>
+      Happy Birthday, My Love!
+    </h2>
+
+    <p style="margin-top:15px;">
+      Forever Yours ❤️
+    </p>
+
+  </footer>
+
+
+  <!-- MUSIC FILE -->
+  <audio id="bgMusic" loop>
+    <source src="song.mp3" type="audio/mpeg">
+  </audio>
+
+
+  <script>
+
+    /* =========================
+       MUSIC
+    ========================= */
+
+    const music = document.getElementById("bgMusic");
+    const button = document.getElementById("musicButton");
+
+    function startMusic() {
+
+      music.play();
+
+      button.innerText = "⏸ Pause Music";
+
+      document.querySelector(".music-box")
+        .scrollIntoView({
+          behavior: "smooth"
+        });
+    }
+
+
+    function toggleMusic() {
+
+      if (music.paused) {
+
+        music.play();
+
+        button.innerText = "⏸ Pause Music";
+
+      } else {
+
+        music.pause();
+
+        button.innerText = "▶ Play Music";
+
+      }
+
+    }
+
+
+    /* =========================
+       PHOTO FULLSCREEN
+    ========================= */
+
+    const lightbox =
+      document.getElementById("lightbox");
+
+    const lightboxImage =
+      document.getElementById("lightboxImage");
+
+    const photoNumber =
+      document.getElementById("photoNumber");
+
+
+    function openPhoto(number) {
+
+      lightboxImage.src =
+        "photo" + number + ".jpg";
+
+      photoNumber.innerText =
+        "Photo " + number + " / 30";
+
+      lightbox.classList.add("active");
+
+      document.body.style.overflow = "hidden";
+    }
+
+
+    function closePhoto() {
+
+      lightbox.classList.remove("active");
+
+      document.body.style.overflow = "auto";
+    }
+
+
+    /* Click outside image to close */
+
+    lightbox.addEventListener("click", function(event) {
+
+      if (event.target === lightbox) {
+
+        closePhoto();
+
+      }
+
+    });
+
+
+    /* ESC key to close */
+
+    document.addEventListener("keydown", function(event) {
+
+      if (event.key === "Escape") {
+
+        closePhoto();
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
+
